@@ -3,7 +3,7 @@
  * @Date:   2018-10-24T08:57:47-04:00
  * @Filename: board.java
  * @Last modified by:   Josh Cooper
- * @Last modified time: 2018-11-07T13:43:28-05:00
+ * @Last modified time: 2018-11-09T18:35:52-05:00
  */
 
 
@@ -217,11 +217,10 @@ public class Board {
           }
       } return columnUnique;
   }
-  public int[] replaceNumber(int[] arrayHelper, int numHold, int row, int column, int number) {
+  public int[] replaceNumber(int[] arrayHelper, int numHold, int number) {
     for (int i = 0; i < arrayHelper.length; i++) {
       if (arrayHelper[i] == numHold) {
         arrayHelper[i] = number;
-        this.currentBoard[row-1][column-1] = number;
         break;
       }
     }
@@ -231,14 +230,15 @@ public class Board {
   public void placeNumber(int row, int column, int number) {
     int numHold = this.currentBoard[row-1][column-1];
     int[] arrayHelper = this.boardState.get("Row " + row);
-    arrayHelper = this.replaceNumber(arrayHelper, numHold, row, column, number);
+    arrayHelper = this.replaceNumber(arrayHelper, numHold, number);
     this.boardState.put("Row " + row, arrayHelper);
     arrayHelper = this.boardState.get("Column " + column);
-    arrayHelper = this.replaceNumber(arrayHelper, numHold, row, column, number);
+    arrayHelper = this.replaceNumber(arrayHelper, numHold, number);
     this.boardState.put("Column " + column, arrayHelper);
     arrayHelper = this.boardState.get("Box " + boxChoose(row, column, this.num));
-    arrayHelper = this.replaceNumber(arrayHelper, numHold, row, column,number);
+    arrayHelper = this.replaceNumber(arrayHelper, numHold, number);
     this.boardState.put("Box " + boxChoose(row,column,this.num), arrayHelper);
+    this.currentBoard[row-1][column-1] = number;
 
   }
 

@@ -3,7 +3,7 @@
  * @Date:   2018-11-01T12:01:08-04:00
  * @Email:  joshcoop1089@gmail.com
  * @Last modified by:   Josh Cooper
- * @Last modified time: 2018-11-07T13:43:29-05:00
+ * @Last modified time: 2018-11-09T18:33:20-05:00
  */
 import java.util.*;
 public class Tests {
@@ -21,16 +21,19 @@ public class Tests {
     int column = 3;
     int number = 2;
     int box = Board.boxChoose(row, column, small.getNum());
+
     System.out.println("Row " + row + " was: \t" +
                   Arrays.toString(small.getBoardState("Row " + row)));
     System.out.println("Column " + column + " was: \t" +
                   Arrays.toString(small.getBoardState("Column " + column)));
     System.out.println("Box " + box + " was: \t" +
                   Arrays.toString(small.getBoardState("Box " + box)));
+    System.out.println("\nPutting " + number + " at Row " + row + " Column " + column);
     small.placeNumber(row,column,number);
+
     System.out.println("Row " + row + " is now: \t" +
                   Arrays.toString(small.getBoardState("Row " + row)));
-    System.out.println("Column " + column + " is now:\t" +
+    System.out.println("Column " + column + " is now:" +
                   Arrays.toString(small.getBoardState("Column " + column)));
     System.out.println("Box " + box + " is now: \t" +
                   Arrays.toString(small.getBoardState("Box " + box)));
