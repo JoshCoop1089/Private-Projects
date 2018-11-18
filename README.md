@@ -1,5 +1,5 @@
 # Private-Projects
-Collection of Side Projects, seperated into specifc language folders
+Collection of Side Projects, seperated into specific language folders
 
 When did I start to learn:
 
