@@ -3,7 +3,7 @@
  * @Date:   2018-10-24T08:57:47-04:00
  * @Filename: board.java
  * @Last modified by:   Josh Cooper
- * @Last modified time: 2018-11-18T10:44:48-05:00
+ * @Last modified time: 2018-11-18T11:16:57-05:00
  */
 
 
@@ -38,7 +38,7 @@ public class Board {
     return this.boardState.get(key);
   }
   public int[][] getGameHistory(int gameNumber) {
-    return this.gameHistory.get(num);
+    return this.gameHistory.get(gameNumber);
   }
   public int getNum() {
     return this.num;
@@ -53,7 +53,7 @@ public class Board {
 
     //This should take the entire 2DInt array and store it to refer to later via undo function
   public void setGameHistory(int gameNumber, int[][] nums) {
-    this.gameHistory.put(num,nums);
+    this.gameHistory.put(gameNumber,nums);
   }
 
 
@@ -146,6 +146,7 @@ public class Board {
     }
   }
   public void currentBoardState() {
+
     //Random numbers to check print and key creation, not final
     this.currentBoard[1][1] = 2;
     this.currentBoard[0][2] = 4;
@@ -162,7 +163,7 @@ public class Board {
 
     //Iterate over this.current to create inital values for row,column and box
     for (int i = 0; i < this.currentBoard.length; i++) {
-      boardState.put("Row " + Integer.toString(i+1), this.currentBoard[i]); //Row Key Creator
+      this.setBoardState("Row " + Integer.toString(i+1), this.currentBoard[i]); //Row Key Creator
       int[] helperColumn = new int[this.currentBoard.length];
       for (int j = 0; j < this.currentBoard.length; j++) {
         helperColumn[j] = this.currentBoard[j][i]; //Column Aggregator
@@ -171,7 +172,7 @@ public class Board {
         //Prepping boardState for full box transfer
               /*Will this result in the creation of num^2 seperate key instances, of which
               only num are actually used? How to make it so it only instanciates the num required boxes*/
-        boardState.put(boxKey, new int[this.currentBoard.length]);
+        this.setBoardState(boxKey, new int[this.currentBoard.length]);
 
         //Box aggregation
         if (boxes.get(boxKey) == null) {
@@ -181,13 +182,13 @@ public class Board {
         boxHelper.add(this.currentBoard[i][j]);
         boxes.put(boxKey,boxHelper); // Box Key Creator
       }
-      boardState.put("Column " + Integer.toString(i+1), helperColumn); // Column Key Creator
+      this.setBoardState("Column " + Integer.toString(i+1), helperColumn); // Column Key Creator
     }
 
     //Transfer final box list from helper to main boardState
     for (int i = 0; i < this.currentBoard.length; i++) {
       for (String key : boxes.keySet()) {
-        boardState.get(key)[i] = boxes.get(key).get(i);
+        this.getBoardState(key)[i] = boxes.get(key).get(i);
       }
     }
 
