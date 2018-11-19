@@ -3,7 +3,7 @@
  * @Date:   2018-10-12T13:10:28-04:00
  * @Email:  joshcoop1089@gmail.com
  * @Last modified by:   Josh Cooper
- * @Last modified time: 2018-10-18T18:46:31-04:00
+ * @Last modified time: 2018-11-19T09:19:05-05:00
  * Point of this program:
       Ideally, the mazeRunner method will be used to prove
       a maze created by randomMazeMaker is a solvable maze
@@ -268,10 +268,7 @@ public class MazeRecursion {
     //Used to show path through maze
     maze[row][column]='*';
 
-    /*Shows me the internal move possiblities so I can check them, not required
-    Also this is a straight copy paste outta StackOverFlow, and given i'm not familiar
-    with lambda functions yet, it's probably going to be rewritten by me in a less
-    efficient way so I can practice outputs*/
+    /*Shows me the internal move possiblities so I can check them, delete in final*/
     allowedMovementMap.forEach((k,v) -> System.out.println(
             k + "=" + Arrays.toString(allowedMovementMap.get(k))));
 

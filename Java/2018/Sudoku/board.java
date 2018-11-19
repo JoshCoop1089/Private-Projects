@@ -3,7 +3,7 @@
  * @Date:   2018-10-24T08:57:47-04:00
  * @Filename: board.java
  * @Last modified by:   Josh Cooper
- * @Last modified time: 2018-11-18T11:16:57-05:00
+ * @Last modified time: 2018-11-19T14:09:39-05:00
  */
 
 
@@ -12,8 +12,15 @@ public class Board {
 
   //Attributes
   private int num;  //will be required for calculating certain properties for box choice
-  private int gameNumber; //used to idenitfy which board needs to be loaded if Undo Function activated
-  private char difficulty;  // for choosing E/M/H versions of 9x9 boards
+  private int gameCount; //Used to access specific game boards for UNdo function
+  private char difficulty = '';  // for choosing E/M/H versions of 9x9 boards
+
+  //Used for while loops for proper row/column checks
+  private boolean rowChosen;
+  private boolean columnChosen;
+  private boolean numberChosen;
+
+  //Setting up the board arrays for restarting game and managing current board
   private int[][] startBoard;  // should be filled in by FileIO from the premade text files eventually
   private int[][] currentBoard;  // will hold the currentBoard version of the board
   private HashMap<String, int[]> boardState = new HashMap<String, int[]>();
@@ -21,27 +28,36 @@ public class Board {
 
 
   //Constructor
-  public Board(int size) {
-    this.num = (int) Math.pow(size, 0.5);
-    this.startBoard = new int[size][size];
-    this.currentBoard = new int[size][size];
-  }
   public Board(int size, char difficulty) { //Used for 9x9 with difficulty chosen
     this.num = (int) Math.pow(size, 0.5);
     this.startBoard = new int[size][size];
     this.currentBoard = new int[size][size];
-    this.difficulty = difficulty;
+    if (difficulty != '') {
+      this.difficulty = difficulty;
+    }
+    this.rowChosen = false;
+    this.columnChosen = false;
+    this.numberChosen = false;
   }
 
   //Getters
   public int[] getBoardState(String key) {
     return this.boardState.get(key);
   }
-  public int[][] getGameHistory(int gameNumber) {
-    return this.gameHistory.get(gameNumber);
+  public int[][] getGameHistory(int num) {
+    return this.gameHistory.get(num);
   }
   public int getNum() {
     return this.num;
+  }
+  public boolean getrowChosen() {
+    return this.rowChosen;
+  }
+  public boolean getColumnChosen() {
+    return this.columnChosen;
+  }
+  public boolean getNumberChosen() {
+    return this.numberChosen;
   }
 
   //Setters
@@ -50,14 +66,23 @@ public class Board {
   public void setBoardState(String key, int[] nums) {
     this.boardState.put(key,nums);
   }
+  public void setRowChosen(boolean rowChosen) {
+    this.rowChosen = rowChosen;
+  }
+  public void setColumnChosen(boolean columnChosen) {
+    this.columnChosen = columnChosen;
+  }
+  public void setNumberChosen(boolean numberChosen) {
+    this.numberChosen = numberChosen;
+  }
 
-    //This should take the entire 2DInt array and store it to refer to later via undo function
-  public void setGameHistory(int gameNumber, int[][] nums) {
-    this.gameHistory.put(gameNumber,nums);
+    //This should take the entire 2dInt array and store it to refer to later via undo function
+  public void setGameHistory(int gameCount, int[][] current) {
+    this.gameHistory.put(gameCount,current);
   }
 
 
-  // //Methods To Finish
+  //Methods To Finish
   // public static int chooseSize() {
   //   int size = 0;
   //   try {
@@ -73,13 +98,23 @@ public class Board {
   //   char difficulty = '';
   //   return difficulty;
   // }
-  // public static void chooseRandomBoard () {}
-  // public int[][] boardStart() {
-  //   //load board from file, populate this.startBoard with proper digits,
-  //   // populate this.boardState with first set of row,column,box values
-  //   return this.startBoard;
-  // }
-  // public static void gameState () {}
+  public static void chooseRandomBoard () {}
+  public int[][] boardStart() {
+    //load board from file, populate this.startBoard with proper digits,
+    // populate this.boardState with first set of row,column,box values
+    return this.startBoard;
+  }
+  public static void gameState () {}
+  public void chooseNumber(int number) {
+
+  }
+  public void chooseRow(int row) {}
+  public void chooseColumn(int column) {}
+  public void undoMove() {
+    System.out.println("The board will now be:\n");
+    this.current = this.gameHistory.get(this.gameCount)
+    this.boardPrint();
+  }
 
 
   //Complete Methods
@@ -146,8 +181,6 @@ public class Board {
     }
   }
   public void currentBoardState() {
-
-    //Random numbers to check print and key creation, not final
     this.currentBoard[1][1] = 2;
     this.currentBoard[0][2] = 4;
     this.currentBoard[3][3] = 6;
@@ -156,23 +189,19 @@ public class Board {
     this.currentBoard[0][3] = 4;
     this.currentBoard[2][3] = 6;
     this.currentBoard[1][3] = 8;
-
     //Internal helper for box aggregation
     HashMap<String, List<Integer>> boxes= new HashMap<>();
     List<Integer> boxHelper = new ArrayList<>();
-
-    //Iterate over this.current to create inital values for row,column and box
+    //Iterate over tihs.current to create inital values for row,column and box
     for (int i = 0; i < this.currentBoard.length; i++) {
-      this.setBoardState("Row " + Integer.toString(i+1), this.currentBoard[i]); //Row Key Creator
+      boardState.put("Row " + Integer.toString(i+1), this.currentBoard[i]); //Row Creator
       int[] helperColumn = new int[this.currentBoard.length];
       for (int j = 0; j < this.currentBoard.length; j++) {
         helperColumn[j] = this.currentBoard[j][i]; //Column Aggregator
         String boxKey = "Box " + Integer.toString(boxChoose(i+1, j+1, num));
 
         //Prepping boardState for full box transfer
-              /*Will this result in the creation of num^2 seperate key instances, of which
-              only num are actually used? How to make it so it only instanciates the num required boxes*/
-        this.setBoardState(boxKey, new int[this.currentBoard.length]);
+        boardState.put(boxKey, new int[this.currentBoard.length]);
 
         //Box aggregation
         if (boxes.get(boxKey) == null) {
@@ -180,35 +209,37 @@ public class Board {
         }
         boxHelper = boxes.get(boxKey);
         boxHelper.add(this.currentBoard[i][j]);
-        boxes.put(boxKey,boxHelper); // Box Key Creator
+        boxes.put(boxKey,boxHelper); // Box Creator
       }
-      this.setBoardState("Column " + Integer.toString(i+1), helperColumn); // Column Key Creator
+      boardState.put("Column " + Integer.toString(i+1), helperColumn); // Column Creator
     }
 
     //Transfer final box list from helper to main boardState
     for (int i = 0; i < this.currentBoard.length; i++) {
       for (String key : boxes.keySet()) {
-        this.getBoardState(key)[i] = boxes.get(key).get(i);
+        boardState.get(key)[i] = boxes.get(key).get(i);
       }
     }
-
-    //Print Check to make sure keys are ok, delete on final version
     boardState.forEach((k,v) -> System.out.println(
                     k + " = " + Arrays.toString(boardState.get(k))));
   }
   public static int boxChoose(int row, int column, int num) {
-    /*Calculate which box a specific row/column value is inside,
-          taking advantage of integer division*/
      int rowChunk = ((row-1)/num)+1;
      int columnChunk = ((column - 1)/num)+1;
      int boxNumber = num*(rowChunk-1)+columnChunk;
      return boxNumber;
   }
-
-      //Unique Number Checks for specific keys
+  public boolean rowUnique (int row, int number) {
+      boolean rowUnique = true;
+      for (int i : this.boardState.get("Row " + row)) {
+          if (i == number) {
+              rowUnique = false;
+          }
+      } return rowUnique;
+  }
   public boolean boxUnique (int box, int number) {
       boolean boxUnique = true;
-      for (int i : this.getBoardState("Box "+ box)) {
+      for (int i : this.boardState.get("Box "+ box)) {
           if (i == number) {
               return false;
           }
@@ -216,22 +247,22 @@ public class Board {
   }
   public boolean columnUnique (int column, int number) {
       boolean columnUnique = true;
-      for (int i : this.getBoardState("Column " + column)) {
+      for (int i : this.boardState.get("Column " + column)) {
           if (i == number) {
               return false;
           }
       } return columnUnique;
   }
-  public boolean rowUnique (int row, int number) {
-      boolean rowUnique = true;
-      for (int i : this.getBoardState("Row " + row)) {
-          if (i == number) {
-              rowUnique = false;
-          }
-      } return rowUnique;
+  public int[] replaceNumber(int[] arrayHelper, int numHold, int number) {
+    for (int i = 0; i < arrayHelper.length; i++) {
+      if (arrayHelper[i] == numHold) {
+        arrayHelper[i] = number;
+        break;
+      }
+    }
+    return arrayHelper;
   }
-
-      //this version of placeNumber assumes valid placement
+    //this version of placeNumber assumes valid placement
   public void placeNumber(int row, int column, int number) {
     //Holding the number to check inside the replaceNumber function
     int numHold = this.currentBoard[row-1][column-1];
@@ -252,15 +283,6 @@ public class Board {
     this.setBoardState("Box " + boxChoose(row,column,this.num), arrayHelper);
     this.currentBoard[row-1][column-1] = number;
 
-  }
-  public int[] replaceNumber(int[] arrayHelper, int numHold, int number) {
-    for (int i = 0; i < arrayHelper.length; i++) {
-      if (arrayHelper[i] == numHold) {
-        arrayHelper[i] = number;
-        break;
-      }
-    }
-    return arrayHelper;
   }
 
 
