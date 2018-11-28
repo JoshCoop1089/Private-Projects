@@ -3,9 +3,9 @@ Collection of Side Projects, seperated into specific language folders
 
 When did I start to learn:
 
-Python3 -> Started May 2018
+Python -> Started May 2018
 
-Java8 -> Started August 2018
+Java -> Started August 2018
 
 C++ -> Started November 2018
 
