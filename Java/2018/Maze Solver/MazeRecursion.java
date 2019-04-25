@@ -4,6 +4,12 @@
  * @Email:  joshcoop1089@gmail.com
  * @Last modified by:   Josh Cooper
  * @Last modified time: 2018-11-19T09:19:05-05:00
+ * 
+ * New Modifications 4/19/2019 -> Learned DFS Algorithm in CS112
+ * 		will use idea of graph connections and visited node information
+ * 		and path choice to prove random maze is solvable
+
+ * 
  * Point of this program:
       Ideally, the mazeRunner method will be used to prove
       a maze created by randomMazeMaker is a solvable maze
@@ -118,6 +124,12 @@ public class MazeRecursion {
     //Will need specific exit rules to make sure there are no random wall covering the exit
     maze = mazeExit(maze);
     return maze;
+  }
+  
+  //Proving the randomly created maze is solvable
+  public static boolean isPathAvailable(char[][] maze) {
+	  
+	  return false;
   }
 
   //Organizing the wall characters
@@ -341,7 +353,7 @@ public class MazeRecursion {
     int startRow = 1;
     int startColumn = 0;
 
-    // //Snake tests if runner can go left consistantly while right is the first listed movement
+    // //Snake tests if runner can go left consistently while right is the first listed movement
     // char[][] maze = snakeMazeMaker(size);
     // allowedMovement(maze);
     // mazeRunner(maze, startRow, startColumn, recursionCounter);

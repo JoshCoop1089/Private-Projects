@@ -79,7 +79,7 @@ Stage 4 (Multiple Language Practice, syntax doesn't change logic flow)
             columns[i] = startBoard[i][2];
         }
 
-        System.out.println(Arrays.toString(columns[2]));
+        System.out.println(Arrays.toString(columns));
 
 
 //        Step 3b Class creation for board actions, separate from main game

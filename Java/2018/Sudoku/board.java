@@ -16,8 +16,6 @@ public class Board {
   //Attributes
   private int num;  //will be required for calculating certain properties for box choice
   private int gameCount = 1; //Used to access specific game moves for Undo function
-  private char difficulty;  // for choosing E/M/H versions of 9x9 boards
-  private static Scanner input = new Scanner(System.in);
   private String boardFileName; // for accessing the specific file with required boards
 
     //Used in Sudoku.java while loops for proper row/column checks
@@ -75,7 +73,6 @@ public class Board {
   public boolean getIsNumberChosen() {
     return this.isNumberChosen;
   }
-
   public int getNum() {
     return this.num;
   }
@@ -98,16 +95,13 @@ public class Board {
     this.currentBoard[row-1][column-1] = number;
   }
 
-  //This should modify specific keys to update the state when you plug in new numbers
+  	//This should modify specific keys to update the state when you plug in new numbers
   public void setBoardState(String key, int[] nums) {
     this.boardState.put(key,nums);
   }
     //This should store a move as a string and allow us to refer to later via undo function
   public void setGameHistory(String lastMove) {
     this.gameHistory.put(this.getGameCount(),lastMove);
-  }
-  public void setBoardFileName(String boardFileName) {
-    this.boardFileName = boardFileName;
   }
 
 
@@ -211,7 +205,7 @@ public class Board {
       System.out.print("Please pick which type of board you want to play."+
                         "\n\tInput 4 for a 4x4 game, or 9 for a 9x9 game."+
                         "\n\tInput 99 to quit. ===> ");
-      size = input.nextInt();
+//      size = input.nextInt();
       if (!sizeSet.contains(size)) {
         //spit out an exception;
       }
@@ -244,7 +238,7 @@ public class Board {
       System.out.print("What level difficulty would you like to try?"+
                               "\n\tInput e for easy, m for medium, or  h for hard."+
                               "\n\tInput q to quit. ===> ");
-      difficulty = input.next();
+ //     difficulty = input.next();
       if (!difficultySet.contains(difficulty)) {
         //spit out error
       }
@@ -420,8 +414,8 @@ public class Board {
 
     this.setCurrentBoardNumber(row, column, number);
     this.gameCount++;
-
   }
+
   public String writeLastMove(int row, int column, int number) {
     int originalNum = this.getCurrentBoardNumber(row,column);
     String lastMove = "Replaced " + originalNum + " at Row " + row + " Column " + column + " with " + number;
