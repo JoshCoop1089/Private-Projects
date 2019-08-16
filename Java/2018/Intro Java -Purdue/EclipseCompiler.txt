@@ -1,0 +1,2 @@
+20 Apr 2018 15:44:30 GMT: Log 'EclipseCompiler.txt' opened: 20 Apr 2018 15:44:30 GMT with name E:\Users\Josh\Documents\EdX Documents\Intro Java -Purdue\EclipseCompiler.txt
+3 Jul 2018 18:41:07 GMT: Log 'EclipseCompiler.txt' opened: 3 Jul 2018 18:41:07 GMT with name E:\Users\Josh\Documents\EdX Documents\Intro Java -Purdue\EclipseCompiler.txt

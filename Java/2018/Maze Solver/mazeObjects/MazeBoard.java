@@ -208,11 +208,11 @@ public class MazeBoard {
 	    return maze;
 	  }
 	  
-		@Override
-		public String toString() {
-		    for (int i = 0; i < mazeBase.length; i++) {
-		      for (int j = 0; j < mazeBase.length; j++) {
-		    	  System.out.print(mazeBase[i][j] + " ");
+	  @Override
+	  public String toString() {
+		  for (int i = 0; i < mazeBase.length; i++) {
+			  for (int j = 0; j < mazeBase.length; j++) {
+				  System.out.print(mazeBase[i][j] + " ");
 		      }System.out.println();
 		    }
 			return "";
