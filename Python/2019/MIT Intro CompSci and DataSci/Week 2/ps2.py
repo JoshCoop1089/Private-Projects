@@ -251,7 +251,7 @@ class StandardRobot(Robot):
 
 
 # Uncomment this line to see your implementation of StandardRobot in action!
-##testRobotMovement(StandardRobot, RectangularRoom)
+# testRobotMovement(StandardRobot, RectangularRoom)
 
 
 # === Problem 4
@@ -332,7 +332,7 @@ class RandomWalkRobot(Robot):
         
         
 # Uncomment this line to see how much your simulation takes on average
-#print(runSimulation(1, 1.0, 10, 10, 0.75, 1, RandomWalkRobot))
+print(runSimulation(1, 1.0, 10, 10, 0.75, 1, RandomWalkRobot))
 
 def showPlot1(title, x_label, y_label):
     """
@@ -383,7 +383,7 @@ def showPlot2(title, x_label, y_label):
 #
 # 1) Write a function call to showPlot1 that generates an appropriately-labeled
 #     plot.
-#showPlot1("robo", "numRobots", "time to clean")
+showPlot1("robo", "numRobots", "time to clean")
 
 #
 # 2) Write a function call to showPlot2 that generates an appropriately-labeled
