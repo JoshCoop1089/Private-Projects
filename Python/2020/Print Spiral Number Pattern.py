@@ -114,33 +114,30 @@ def addInDirection(array, direction, startVal, endVal, startPosX, startPosY, clo
     yLoc = startPosY
     if clockDirection: 
         nextVal = startVal
-    else:
-        nextVal = endVal
-    while (nextVal <= endVal and nextVal >= startVal):
+        
+    while (nextVal <= endVal):
         if direction == "left":
             #Move across a row from right to left, increasing the number put in cell
             array[startPosY][xLoc] = nextVal
             xLoc -=  1
-            nextVal += 1
 
         elif direction == "right":
             #Move across a row from left to right, increasing the number put in cell
             array[startPosY][xLoc] = nextVal
             xLoc +=  1
-            nextVal += 1
             
         elif direction == "up":
             #Move across a row from down to up, increasing the number put in cell
             array[yLoc][startPosX] = nextVal
             yLoc -=  1
-            nextVal += 1 
             
         else: #direction == "down"
             #Move across a row from up to down, increasing the number put in cell
             array[yLoc][startPosX] = nextVal
             yLoc +=  1
-            nextVal += 1 
+            
         # printArray(array, len(array))
+        nextVal += 1 
     return array
         
     
@@ -196,10 +193,10 @@ def addNumbersToArray(array, spiralNumber, size, clockDirection):
 
 for i in range(1,6,2):
     size = i
-    array = makeStorageArray(size)
     spiralMaxNum = (size+1)//2
     
     #Print the Spiral going clockwise
+    array = makeStorageArray(size)
     print("Size: " + str(i) + "  \nDirection: CW  Max Val: " + str(i**2))
     for spiralNum in range(2,(spiralMaxNum + 1)):
         array = addNumbersToArray(array, spiralNum, size, 1)
